@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {Dimensions, FlatList, Image, ScrollView} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Platform,
+  ScrollView,
+  ViewStyle,
+} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Current} from '../../api/dtos/current';
@@ -22,6 +29,11 @@ const WeatherScreen = (prop: Props) => {
     prop.get({});
   }, []);
 
+  let iosBar: ViewStyle = {};
+  if (Platform.OS === 'ios') {
+    iosBar = {paddingTop: 50};
+  }
+
   const renderHourItem = ({item}: {item: HourDetail}) => {
     return (
       <>
@@ -41,7 +53,7 @@ const WeatherScreen = (prop: Props) => {
             <Image
               style={{width: 50, height: 50}}
               source={{
-                uri: `http://${item.condition.icon}`,
+                uri: `https:${item.condition.icon}`,
               }}
             />
           </View>
@@ -72,7 +84,7 @@ const WeatherScreen = (prop: Props) => {
               <Image
                 style={{width: 40, height: 40}}
                 source={{
-                  uri: `http://${item.day.condition.icon}`,
+                  uri: `https:${item.day.condition.icon}`,
                 }}
               />
             </View>
@@ -105,7 +117,11 @@ const WeatherScreen = (prop: Props) => {
 
   return (
     <>
-      <View flex backgroundColor={colors.bg1Color} padding-20>
+      <View
+        flex
+        backgroundColor={colors.bg1Color}
+        padding-20
+        style={{...iosBar}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View row>
             <View flex>
@@ -134,7 +150,7 @@ const WeatherScreen = (prop: Props) => {
               <Image
                 style={{width: 100, height: 100}}
                 source={{
-                  uri: `http://${prop.current?.condition.icon}`,
+                  uri: `http:${prop.current?.condition.icon}`,
                 }}
               />
             </View>

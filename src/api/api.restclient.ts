@@ -1,4 +1,4 @@
-import {map, tap} from 'rxjs';
+import {catchError, map, of, tap} from 'rxjs';
 import {ajax} from 'rxjs/ajax';
 
 const get = (apiUrl: string) => {
@@ -19,7 +19,13 @@ const get = (apiUrl: string) => {
   }).pipe(
     tap(res => res),
     map(res => res.response),
+    catchError(error => handleError(error)),
   );
+};
+
+const handleError = (error: any) => {
+  console.log(error.message);
+  return of(null);
 };
 
 export const RestClient = {
