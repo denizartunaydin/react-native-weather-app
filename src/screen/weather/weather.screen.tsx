@@ -68,6 +68,8 @@ const WeatherScreen = (prop: Props) => {
     );
   };
 
+  console.log();
+
   const renderDayItem = ({item}: {item: ForecastDayDetail}) => {
     return (
       <>
@@ -180,7 +182,14 @@ const WeatherScreen = (prop: Props) => {
             <FlatList
               showsHorizontalScrollIndicator={false}
               horizontal={true}
-              data={prop.forecast?.forecastday[0].hour}
+              data={prop.forecast?.forecastday[0].hour.filter(c => {
+                const date = Helper.stringToDate(c.time);
+                const now = Helper.stringToDate(new Date());
+
+                console.log(date.diff(now, 'hour') > 0);
+
+                return date.diff(now, 'hour') >= 0;
+              })}
               renderItem={renderHourItem}
               keyExtractor={item => '' + item.time}></FlatList>
           </View>

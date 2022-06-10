@@ -14,6 +14,10 @@ const dateFormat = (date: any, format: string) => {
   if (date) return moment(date).format(format);
 };
 
+const stringToDate = (date: any) => {
+  return moment(date);
+};
+
 const objToQueryString = (obj: any) => {
   const keyValuePairs = [];
   for (const key in obj) {
@@ -26,5 +30,6 @@ const objToQueryString = (obj: any) => {
 
 export const Helper = {
   dateFormat: dateFormat,
+  stringToDate: stringToDate,
   objToQueryString: objToQueryString,
 };
